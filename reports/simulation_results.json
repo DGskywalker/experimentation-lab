@@ -1,0 +1,37 @@
+{
+  "aa": {
+    "n_sims": 10000,
+    "false_positive_rate": 0.0524,
+    "ks_uniform_p": 0.0549122987848657
+  },
+  "peeking": {
+    "False positive rate (no effect)": {
+      "Fixed horizon (look once, day 20)": 0.04825,
+      "Naive daily peeking": 0.2445,
+      "O'Brien\u2013Fleming, 20 looks": 0.044,
+      "mSPRT, look any time": 0.0075
+    },
+    "Power (+5% lift)": {
+      "Fixed horizon (look once, day 20)": 0.69475,
+      "Naive daily peeking": 0.81525,
+      "O'Brien\u2013Fleming, 20 looks": 0.676,
+      "mSPRT, look any time": 0.3705
+    },
+    "Avg. days to decision (+5% lift)": {
+      "Fixed horizon (look once, day 20)": 20.0,
+      "Naive daily peeking": 10.0515,
+      "O'Brien\u2013Fleming, 20 looks": 16.12675,
+      "mSPRT, look any time": 17.4115
+    }
+  },
+  "cuped": {
+    "rho": 0.7630240095942183,
+    "variance_reduction": 0.5822056392172363,
+    "mean_estimate_raw": 0.1468948012517655,
+    "mean_estimate_cuped": 0.1465951051404338,
+    "sd_raw": 0.10312513815507782,
+    "sd_cuped": 0.0665482784365745,
+    "n_per_arm_raw": 7915,
+    "n_per_arm_cuped": 3307
+  }
+}

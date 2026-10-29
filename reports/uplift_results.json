@@ -1,0 +1,312 @@
+{
+  "hillstrom_ate": [
+    {
+      "metric": "Mens E-Mail: visit",
+      "control": 0.10616727682343002,
+      "treatment": 0.18275684047496127,
+      "diff": 0.07658956365153125,
+      "rel_lift": 0.721404616781399,
+      "ci_low": 0.06995350121810838,
+      "ci_high": 0.08322562608495411,
+      "p_value": 5.685165482802319e-112
+    },
+    {
+      "metric": "Mens E-Mail: conversion",
+      "control": 0.005726086548390125,
+      "treatment": 0.01253109306800582,
+      "diff": 0.006805006519615695,
+      "rel_lift": 1.188421876286328,
+      "ci_low": 0.005000171380452313,
+      "ci_high": 0.008609841658779076,
+      "p_value": 1.5232235005955425e-13
+    },
+    {
+      "metric": "Womens E-Mail: visit",
+      "control": 0.10616727682343002,
+      "treatment": 0.151400383410483,
+      "diff": 0.045233106587052985,
+      "rel_lift": 0.4260550702669102,
+      "ci_low": 0.03889382581264261,
+      "ci_high": 0.05157238736146336,
+      "p_value": 3.1824031593349214e-44
+    },
+    {
+      "metric": "Womens E-Mail: conversion",
+      "control": 0.005726086548390125,
+      "treatment": 0.008837144059475383,
+      "diff": 0.003111057511085258,
+      "rel_lift": 0.5433130436982172,
+      "ci_low": 0.0014986778214022348,
+      "ci_high": 0.004723437200768281,
+      "p_value": 0.00015710512910668448
+    },
+    {
+      "metric": "Mens E-Mail: spend ($)",
+      "control": 0.6527893551112361,
+      "treatment": 1.422616511005773,
+      "diff": 0.7698271558945368,
+      "rel_lift": 1.1792887703620063,
+      "ci_low": 0.4851397325684076,
+      "ci_high": 1.0545145792206658,
+      "p_value": 1.1638149682254823e-07
+    }
+  ],
+  "hillstrom_models": [
+    {
+      "model": "Response model (classic)",
+      "qini_coef": 0.017117468390367995,
+      "qini_ci_low": -0.01810758004133278,
+      "qini_ci_high": 0.05419303660385272,
+      "uplift@30% (pp)": 8.500712680481609,
+      "share of incremental in top 30%": 0.3349546328423756
+    },
+    {
+      "model": "S-learner",
+      "qini_coef": 0.006242690183373845,
+      "qini_ci_low": -0.03262464182332079,
+      "qini_ci_high": 0.04452709878563541,
+      "uplift@30% (pp)": 6.933615259239681,
+      "share of incremental in top 30%": 0.2735248800906344
+    },
+    {
+      "model": "T-learner",
+      "qini_coef": -0.019387621132890772,
+      "qini_ci_low": -0.07256246374801559,
+      "qini_ci_high": 0.023013738473231165,
+      "uplift@30% (pp)": 7.069836620021635,
+      "share of incremental in top 30%": 0.2788714438316744
+    },
+    {
+      "model": "X-learner",
+      "qini_coef": -0.02247498789260432,
+      "qini_ci_low": -0.0715509583904619,
+      "qini_ci_high": 0.015398744293056292,
+      "uplift@30% (pp)": 6.8329411419194495,
+      "share of incremental in top 30%": 0.26494943428696754
+    },
+    {
+      "model": "S-learner (logistic)",
+      "qini_coef": 0.0365549483012218,
+      "qini_ci_low": 0.002959596767411085,
+      "qini_ci_high": 0.07272889844019882,
+      "uplift@30% (pp)": 8.47639519443692,
+      "share of incremental in top 30%": 0.3350344189083044
+    },
+    {
+      "model": "Random targeting",
+      "qini_coef": -0.00013835192163892017,
+      "qini_ci_low": -0.04381857686675461,
+      "qini_ci_high": 0.04273433132067961,
+      "uplift@30% (pp)": 7.831507734323953,
+      "share of incremental in top 30%": 0.3053545706391017
+    }
+  ],
+  "hillstrom_robustness": [
+    {
+      "model": "S-learner (logistic)",
+      "mean": 0.0330853073548227,
+      "std": 0.016613035965616148,
+      "min": 0.022955251410502364,
+      "max": 0.06256289978453712
+    },
+    {
+      "model": "Response model (classic)",
+      "mean": 0.032198238674295325,
+      "std": 0.017130075546623283,
+      "min": 0.021515971513002743,
+      "max": 0.06260244278878128
+    },
+    {
+      "model": "T-learner",
+      "mean": 0.02215835928024916,
+      "std": 0.009681852011327265,
+      "min": 0.009957056407621685,
+      "max": 0.03469657707985954
+    },
+    {
+      "model": "S-learner",
+      "mean": 0.020441609933964898,
+      "std": 0.015428406242829394,
+      "min": 0.0026407721984549873,
+      "max": 0.045295152945758324
+    },
+    {
+      "model": "X-learner",
+      "mean": 0.00878015657844811,
+      "std": 0.020187291544763737,
+      "min": -0.012673793701013195,
+      "max": 0.04018525135596624
+    }
+  ],
+  "hillstrom_calibration": [
+    {
+      "decile": 1,
+      "predicted (pp)": 12.634913805455437,
+      "observed (pp)": 10.08158588415466,
+      "se (pp)": 2.0976722770624336
+    },
+    {
+      "decile": 2,
+      "predicted (pp)": 10.334307331039527,
+      "observed (pp)": 6.736574996934852,
+      "se (pp)": 1.924365977904001
+    },
+    {
+      "decile": 3,
+      "predicted (pp)": 9.263817217368274,
+      "observed (pp)": 8.350395455971467,
+      "se (pp)": 1.8793875963860496
+    },
+    {
+      "decile": 4,
+      "predicted (pp)": 8.401504503047299,
+      "observed (pp)": 9.814907936158049,
+      "se (pp)": 1.8028065360184358
+    },
+    {
+      "decile": 5,
+      "predicted (pp)": 7.671323706510319,
+      "observed (pp)": 7.603637785389386,
+      "se (pp)": 1.721752690215779
+    },
+    {
+      "decile": 6,
+      "predicted (pp)": 6.986810226692929,
+      "observed (pp)": 5.771909160415762,
+      "se (pp)": 1.6616722382392233
+    },
+    {
+      "decile": 7,
+      "predicted (pp)": 6.300854037722324,
+      "observed (pp)": 7.179419437931375,
+      "se (pp)": 1.5273710999885666
+    },
+    {
+      "decile": 8,
+      "predicted (pp)": 5.56468896382654,
+      "observed (pp)": 7.22722101561692,
+      "se (pp)": 1.4727646754672026
+    },
+    {
+      "decile": 9,
+      "predicted (pp)": 4.808116625859281,
+      "observed (pp)": 6.596906654328535,
+      "se (pp)": 1.2988690321548193
+    },
+    {
+      "decile": 10,
+      "predicted (pp)": 3.843996609873748,
+      "observed (pp)": 6.388446154820205,
+      "se (pp)": 1.0544693346808451
+    }
+  ],
+  "hillstrom_profile": {
+    "bought womens before = 0": 7.172747768033494,
+    "bought womens before = 1": 7.914215221074099,
+    "bought mens before = 0": 7.0853006540534285,
+    "bought mens before = 1": 7.985598528500981,
+    "new customer = 0": 8.90226969428774,
+    "new customer = 1": 6.283648753915248,
+    "channel = Multichannel": 8.461079176524544,
+    "channel = Phone": 6.660627485135463,
+    "channel = Web": 8.235069650888775,
+    "recency (months) (0, 3]": 8.961995182347716,
+    "recency (months) (3, 6]": 7.796319542996609,
+    "recency (months) (6, 9]": 6.71344544319833,
+    "recency (months) (9, 12]": 5.947766352157434
+  },
+  "criteo_ate": {
+    "metric": "criteo visit",
+    "control": 0.03730026043574697,
+    "treatment": 0.04857818929314822,
+    "diff": 0.011277928857401254,
+    "rel_lift": 0.3023552309193255,
+    "stat": 19.056945973628046,
+    "p_value": 5.75368060765642e-81,
+    "ci_low": 0.010215990110001913,
+    "ci_high": 0.012339867604800594,
+    "method": "two-proportion z-test"
+  },
+  "criteo_models": [
+    {
+      "model": "Response model (classic)",
+      "qini_coef": 0.34835429420303476,
+      "qini_ci_low": 0.32519729644030565,
+      "qini_ci_high": 0.37426712821641167,
+      "uplift@30% (pp)": 3.1613877181538714,
+      "share of incremental in top 30%": 0.8460470187494956
+    },
+    {
+      "model": "S-learner",
+      "qini_coef": 0.3613655497575295,
+      "qini_ci_low": 0.3344605220540726,
+      "qini_ci_high": 0.3879252757246912,
+      "uplift@30% (pp)": 3.1870292965427414,
+      "share of incremental in top 30%": 0.8530200443114726
+    },
+    {
+      "model": "T-learner",
+      "qini_coef": 0.31495275010396145,
+      "qini_ci_low": 0.2593283285262198,
+      "qini_ci_high": 0.40879746165099234,
+      "uplift@30% (pp)": 3.047161309691837,
+      "share of incremental in top 30%": 0.8156898563997741
+    },
+    {
+      "model": "X-learner",
+      "qini_coef": 0.35514068089054485,
+      "qini_ci_low": 0.3069571981311772,
+      "qini_ci_high": 0.41309866795062844,
+      "uplift@30% (pp)": 3.2185944558437414,
+      "share of incremental in top 30%": 0.8619387779968073
+    },
+    {
+      "model": "S-learner (logistic)",
+      "qini_coef": 0.3268875414477701,
+      "qini_ci_low": 0.3021807432546376,
+      "qini_ci_high": 0.35635078816220517,
+      "uplift@30% (pp)": 3.1417901472304415,
+      "share of incremental in top 30%": 0.839949941776881
+    },
+    {
+      "model": "Random targeting",
+      "qini_coef": -0.0004835837043885756,
+      "qini_ci_low": -0.04472923075288383,
+      "qini_ci_high": 0.04850376996593135,
+      "uplift@30% (pp)": 1.2394651802258758,
+      "share of incremental in top 30%": 0.32984180917408995
+    }
+  ],
+  "criteo_budget": [
+    {
+      "treat top": "10%",
+      "X-learner: share of incremental visits": 0.5606942886682572,
+      "response model: share": 0.565213847257484,
+      "X-learner: incremental visits per 1k treated": 63.23470298351806
+    },
+    {
+      "treat top": "20%",
+      "X-learner: share of incremental visits": 0.7714933777575338,
+      "response model: share": 0.7309591425098304,
+      "X-learner: incremental visits per 1k treated": 43.504237141528286
+    },
+    {
+      "treat top": "30%",
+      "X-learner: share of incremental visits": 0.8619387779968073,
+      "response model: share": 0.8460470187494956,
+      "X-learner: incremental visits per 1k treated": 32.40294739227788
+    },
+    {
+      "treat top": "50%",
+      "X-learner: share of incremental visits": 0.9481148587277353,
+      "response model: share": 0.9483208804517048,
+      "X-learner: incremental visits per 1k treated": 21.385543850752878
+    },
+    {
+      "treat top": "100%",
+      "X-learner: share of incremental visits": 1.0,
+      "response model: share": 1.0,
+      "X-learner: incremental visits per 1k treated": 11.277928857401253
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "balance": [
+    {
+      "check": "Peak-ad day mix (chi-square)",
+      "statistic": 235.61445227291117,
+      "p_value": 4.849067664297988e-48
+    },
+    {
+      "check": "Ads seen per user (KS test)",
+      "statistic": 0.03969598481465647,
+      "p_value": 2.3426508802338634e-31
+    }
+  ],
+  "overall": {
+    "metric": "conversion",
+    "control": 0.01785410644448223,
+    "treatment": 0.025546559636683747,
+    "diff": 0.007692453192201517,
+    "rel_lift": 0.43085064022225833,
+    "stat": 7.3700781265454145,
+    "p_value": 1.7052807161559714e-13,
+    "ci_low": 0.0059509324316110055,
+    "ci_high": 0.009433973952792028,
+    "method": "two-proportion z-test",
+    "incremental_conversions": 4342.982145893556,
+    "incremental_ci": [
+      3359.7595794416466,
+      5326.204712345465
+    ],
+    "prob_ads_better": 1.0
+  },
+  "allocation": [
+    {
+      "holdout share": 0.01,
+      "CI half-width (pp)": 0.3408622573802083,
+      "conversions forgone": 45.23939414786904,
+      "CI vs 50/50": 4.578266026750981
+    },
+    {
+      "holdout share": 0.02,
+      "CI half-width (pp)": 0.24275826425627084,
+      "conversions forgone": 90.47878829573808,
+      "CI vs 50/50": 3.260589548692153
+    },
+    {
+      "holdout share": 0.04,
+      "CI half-width (pp)": 0.17415513675103425,
+      "conversions forgone": 180.95757659147617,
+      "CI vs 50/50": 2.339151750327307
+    },
+    {
+      "holdout share": 0.1,
+      "CI half-width (pp)": 0.11515753405346321,
+      "conversions forgone": 452.39394147869046,
+      "CI vs 50/50": 1.5467298431146346
+    },
+    {
+      "holdout share": 0.2,
+      "CI half-width (pp)": 0.08809019134502569,
+      "conversions forgone": 904.7878829573809,
+      "CI vs 50/50": 1.1831768451708362
+    },
+    {
+      "holdout share": 0.5,
+      "CI half-width (pp)": 0.07445226105004324,
+      "conversions forgone": 2261.969707393452,
+      "CI vs 50/50": 1.0
+    }
+  ],
+  "cmh": {
+    "pooled_or": 1.4421459480522942,
+    "mh_or": 1.4392399575108663,
+    "mh_or_ci": [
+      1.3049640862047702,
+      1.5873323083703943
+    ],
+    "cmh_p": 2.353672812205332e-13,
+    "breslow_day_p": 0.013296073781255524
+  },
+  "segments_significant": {
+    "sig_raw": {
+      "ads_bucket": 2,
+      "most_ads_day": 5,
+      "most_ads_hour": 8
+    },
+    "sig_bh": {
+      "ads_bucket": 2,
+      "most_ads_day": 4,
+      "most_ads_hour": 1
+    },
+    "tests": {
+      "ads_bucket": 6,
+      "most_ads_day": 7,
+      "most_ads_hour": 24
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "plan": {
+    "comparisons": 2,
+    "dunnett_z": 2.2121277465786213,
+    "alpha_per_comparison": 0.02695783944690727,
+    "n_per_arm_primary": 14009,
+    "n_per_arm_primary_bonferroni": 14279,
+    "completers_per_arm_guardrail": 12151,
+    "n_per_arm_guardrail": 34718,
+    "binding_constraint": "guardrail",
+    "n_per_arm": 34718,
+    "n_total": 104154,
+    "days_needed_raw": 27,
+    "days_planned": 28,
+    "weekly_looks": 4,
+    "obf_z_boundaries": [
+      4.804839923816881,
+      3.304943547207727,
+      2.6377176331345638,
+      2.253257572771711
+    ],
+    "users_at_planned_end": 37333
+  },
+  "readout": [
+    {
+      "arm": "B_fewer_fields",
+      "completion lift (pp)": 3.743625070605611,
+      "completion CI (pp)": "[+2.99, +4.50]",
+      "cancellation \u0394 (pp)": 3.4013633871414206,
+      "cancel upper bound (pp)": 4.353172080878178,
+      "revenue/visitor \u0394 ($)": 6.597645438300489,
+      "rev/visitor p": 0.00010212326614545582,
+      "decision": "DON'T SHIP: primary wins but a guardrail shows harm, iterate on the design"
+    },
+    {
+      "arm": "C_two_step",
+      "completion lift (pp)": 2.425018519986449,
+      "completion CI (pp)": "[+1.67, +3.18]",
+      "cancellation \u0394 (pp)": 0.9065480368646128,
+      "cancel upper bound (pp)": 1.8563945296511775,
+      "revenue/visitor \u0394 ($)": 5.518085983417109,
+      "rev/visitor p": 0.0009452425214780732,
+      "decision": "HOLD: primary wins but guardrail safety isn't proven, extend or re-test"
+    }
+  ],
+  "reliability": [
+    {
+      "index": "B_fewer_fields",
+      "DON'T SHIP": 299,
+      "HOLD": 1,
+      "SHIP": 0,
+      "correct decision": 0.9966666666666667
+    },
+    {
+      "index": "C_two_step",
+      "DON'T SHIP": 18,
+      "HOLD": 31,
+      "SHIP": 251,
+      "correct decision": 0.8366666666666667
+    }
+  ],
+  "cuped_variance_reduction": 0.052423668977761934,
+  "srm": {
+    "observed": [
+      37197,
+      37252,
+      37550
+    ],
+    "expected": [
+      37333.0,
+      37333.0,
+      37333.0
+    ],
+    "observed_share": [
+      0.33212,
+      0.33261,
+      0.33527
+    ],
+    "chi2": 1.9324993973160476,
+    "p_value": 0.38050738292163805,
+    "srm_detected": false
+  }
+}

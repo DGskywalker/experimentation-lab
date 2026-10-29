@@ -1,0 +1,11 @@
+# environment
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+
+# downloaded data and the local DuckDB file (recreate with scripts/fetch_data.py)
+data/*
+!data/.gitkeep

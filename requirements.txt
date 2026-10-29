@@ -1,0 +1,13 @@
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11
+statsmodels>=0.14
+duckdb>=1.0
+matplotlib>=3.8
+altair>=5
+streamlit>=1.35
+jupytext>=1.16
+nbconvert>=7
+ipykernel>=6
+pytest>=8
+scikit-learn>=1.4
