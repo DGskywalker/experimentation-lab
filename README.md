@@ -1,107 +1,263 @@
-# Experimentation Lab
+<h1 align="center">Experimentation Lab</h1>
 
-An end-to-end A/B testing project:
+<p align="center">
+  <b>Design, analyse and stress-test online experiments, from the first sample-size calculation to the ship decision.</b>
+</p>
 
-1. A tested statistics library, **`abkit`**.
-2. An audit of a real 90k-user experiment.
-3. Simulations that verify the methods' error rates.
-4. A pre-registered booking-form experiment, rehearsed in a simulator calibrated on 119k
-   real hotel bookings.
-5. A 588k-user marketing test analysed segment by segment.
-6. Uplift modelling on two randomised datasets, including 1M users from Criteo's 14M-user
-   ad experiment.
+<p align="center">
+  <a href="#results-at-a-glance">Results</a> &nbsp;·&nbsp;
+  <a href="#case-studies">Case studies</a> &nbsp;·&nbsp;
+  <a href="#the-abkit-toolkit">Toolkit</a> &nbsp;·&nbsp;
+  <a href="#interactive-app">App</a> &nbsp;·&nbsp;
+  <a href="#run-it-yourself">Run it</a> &nbsp;·&nbsp;
+  <a href="#data">Data</a>
+</p>
 
-It uses only free tools and public data. No API keys are needed.
+<br>
 
-## Headline results
+<p align="center">
+  <img src="reports/figures/bf_sample_size.png" width="88%" alt="The guardrail, not the primary metric, sets the experiment size">
+</p>
 
-| | Finding |
-|---|---|
-| **Cookie Cats audit** | Moving the gate from level 30 to 40 **cuts 7-day retention by 0.82pp** (19.02% → 18.20%; 95% bootstrap CI −1.32 to −0.31pp; Holm-adjusted p = 0.005; P(gate_40 better) = 0.07%). **Keep gate 30.** |
-| **A/A calibration** | 10,000 null experiments → false positive rate **5.2%** |
-| **Peeking** | Daily peeking over 20 days → **24% false positives**. O'Brien–Fleming boundaries bring it back to **≤ 5%** |
-| **CUPED** | With a pre-period covariate (ρ = 0.76): **58% variance reduction**, so 58% fewer users needed |
-| **Booking-form design** | The **cancellation guardrail, not the primary metric, sets the sample size** (34.7k vs 14.0k per arm). Sizing for the primary metric alone would have shipped a variant that raises cancellations by 3pp |
-| **Rehearsal (300 runs)** | Harmful variant never shipped. Safe variant shipped in 84% of runs |
-| **Marketing campaign (588k users)** | Ads lift conversion 1.79% → 2.55% (+43%), about **4,300 incremental conversions**. The result holds after Cochran–Mantel–Haenszel adjustment for an uneven day mix. **All of the lift comes from users who saw 28+ ads.** 8 of 24 "winning hours" shrink to 1 after Benjamini–Hochberg correction |
-| **Uplift: Criteo (1M users)** | Showing ads to the X-learner's top 30% of users captures **86% of incremental visits**, **2.9× more visits per user treated** than showing ads to everyone. The classic response model is a strong baseline; uplift models pull ahead at tight budgets |
-| **Uplift: Hillstrom (64k)** | No model reliably beats random targeting (Qini ≈ 0.03 over 5 splits). Every customer segment responds, so **e-mail everyone**. Boosted learners overfit the weak signal |
+<br>
 
-| | |
-|---|---|
-| ![](reports/figures/cc_effect_ci.png) | ![](reports/figures/sim_peeking.png) |
-| ![](reports/figures/bf_sample_size.png) | ![](reports/figures/bf_readout.png) |
-| ![](reports/figures/mk_segments.png) | ![](reports/figures/up_criteo_qini.png) |
+Most A/B testing tutorials stop at a p-value. This project covers the full workflow:
 
-## What's inside
+* **Trust the data:** sample-ratio checks and covariate balance.
+* **Size the test:** power, minimum detectable effect and guardrails.
+* **Analyse it:** frequentist and Bayesian methods, variance reduction, sequential looks
+  and multiple-testing control.
+* **Find who responds:** uplift modelling.
+* **Make the decision:** pre-registered rules for shipping, holding or killing a variant.
+
+Everything runs on **free tools and public data. No API keys, no paid services.** Every
+statistical function is unit-tested against an independent reference.
+
+<br>
+
+## Results at a glance
+
+<table>
+  <tr>
+    <td align="center" width="25%"><h2>−0.82pp</h2>7-day retention lost by moving the Cookie Cats gate to level 40</td>
+    <td align="center" width="25%"><h2>24%</h2>false positive rate from daily peeking, vs. the 5% promised</td>
+    <td align="center" width="25%"><h2>2.5×</h2>more users needed once the cancellation guardrail is powered</td>
+    <td align="center" width="25%"><h2>86%</h2>of incremental Criteo visits captured by treating the top 30% of users</td>
+  </tr>
+</table>
+
+| Study | Data | Finding |
+|:--|:--|:--|
+| Mobile-game gate test | 90,189 players | Gate 40 lowers 7-day retention from 19.02% to 18.20% (95% bootstrap CI −1.32 to −0.31pp; P(gate 40 better) = 0.07%). **Keep gate 30.** |
+| Method calibration | 10,000 simulated A/A tests | False positive rate 5.2%; p-values uniform |
+| Peeking | 20 daily looks × 4,000 runs | Naive peeking: 24% false positives. O'Brien–Fleming boundaries: ≤ 5% |
+| Variance reduction | Simulated pre-period data | CUPED cuts variance by 58%, and the required sample size with it |
+| Booking-form design | 97,576 real hotel bookings | The guardrail sets the size (34.7k vs. 14.0k per arm). A primary-only design would have shipped a variant that raises cancellations by 3pp |
+| Design rehearsal | 300 simulated experiments | The harmful variant was never shipped; the safe variant shipped in 84% of runs |
+| Ad campaign | 588,101 users | +43% conversion, about 4,300 incremental conversions. All of the lift comes from users who saw 28+ ads |
+| Uplift, Criteo | 1M of 14M users | Targeting by an X-learner buys 2.9× more incremental visits per user treated |
+| Uplift, Hillstrom | 64,000 customers | No model reliably beats random targeting. **E-mail everyone** |
+
+<br>
+
+## Case studies
+
+### 01 &nbsp; Auditing a real experiment: Cookie Cats
+
+<table>
+  <tr>
+    <td width="55%"><img src="reports/figures/cc_effect_ci.png" alt="Effect of moving the gate on retention"></td>
+    <td width="45%">
+      A puzzle game moved its first progress gate from level 30 to level 40. The audit
+      runs in a fixed order: trust, power, test, estimate, decide.
+      <br><br>
+      <b>Trust:</b> no duplicates; a borderline split imbalance (p = 0.009) is noted but
+      doesn't change the result; one bot-like outlier with 49,854 rounds is removed.<br>
+      <b>Power:</b> the test could detect a 0.74pp change with 80% power.<br>
+      <b>Evidence:</b> z-test, Holm correction, a 10,000-resample bootstrap and a
+      Beta–Binomial posterior all agree.
+    </td>
+  </tr>
+</table>
+
+&rarr; [`notebooks/01_cookie_cats_audit.ipynb`](notebooks/01_cookie_cats_audit.ipynb)
+
+### 02 &nbsp; Do the methods keep their promises?
+
+<table>
+  <tr>
+    <td width="55%"><img src="reports/figures/sim_peeking.png" alt="Cumulative false positive rate from daily peeking"></td>
+    <td width="45%">
+      Simulations check the toolkit before trusting it with real decisions.
+      <br><br>
+      <b>A/A tests:</b> 10,000 experiments with no effect produce a 5.2% false positive rate.<br>
+      <b>Peeking:</b> stopping on the first daily p &lt; 0.05 inflates errors almost
+      five-fold. O'Brien–Fleming boundaries and mSPRT restore control.<br>
+      <b>CUPED:</b> the estimate stays unbiased, with a 35% smaller spread.
+    </td>
+  </tr>
+</table>
+
+&rarr; [`notebooks/02_simulations.ipynb`](notebooks/02_simulations.ipynb)
+
+### 03 &nbsp; Designing a booking-form experiment before launch
+
+<table>
+  <tr>
+    <td width="55%"><img src="reports/figures/bf_readout.png" alt="Readout of primary metric and cancellation guardrail"></td>
+    <td width="45%">
+      Two variants, fewer fields and a two-step form, are tested against a 12-field form.
+      Removing the phone field may lift completion but hurt lead quality.
+      <br><br>
+      The design uses Dunnett-corrected comparisons, a cancellation non-inferiority
+      guardrail, weekly O'Brien–Fleming looks, CUPED and hash-based assignment. It is then
+      <b>rehearsed 300 times</b> in a simulator calibrated on real bookings.
+    </td>
+  </tr>
+</table>
+
+&rarr; [`notebooks/03_booking_form_design.ipynb`](notebooks/03_booking_form_design.ipynb) &nbsp;·&nbsp; [`docs/preregistration_booking_form.md`](docs/preregistration_booking_form.md)
+
+### 04 &nbsp; Segments and the multiple-testing trap
+
+<table>
+  <tr>
+    <td width="55%"><img src="reports/figures/mk_segments.png" alt="Lift by day and by ad exposure"></td>
+    <td width="45%">
+      A 96/4 ad-vs-PSA campaign with 588k users.
+      <br><br>
+      <b>Allocation:</b> the small holdout gives up only about 180 conversions, at the cost
+      of a 2.3× wider confidence interval.<br>
+      <b>Confounding:</b> the arms saw ads on different days. Cochran–Mantel–Haenszel
+      adjustment leaves the effect unchanged (odds ratio 1.44).<br>
+      <b>Segments:</b> 8 of 24 "winning hours" fall to 1 after Benjamini–Hochberg correction.
+    </td>
+  </tr>
+</table>
+
+&rarr; [`notebooks/04_marketing_segments.ipynb`](notebooks/04_marketing_segments.ipynb)
+
+### 05 &nbsp; Uplift modelling: who should be treated?
+
+<table>
+  <tr>
+    <td width="55%"><img src="reports/figures/up_criteo_qini.png" alt="Qini curves on Criteo"></td>
+    <td width="45%">
+      S-, T- and X-learners are compared with a classic response model on two randomised
+      datasets.
+      <br><br>
+      <b>Criteo:</b> strong heterogeneity. Treating the top 30% of users captures 86% of
+      incremental visits.<br>
+      <b>Hillstrom:</b> weak heterogeneity. Flexible models overfit it, which a 5-split
+      robustness check exposes. The honest answer is to treat everyone.
+    </td>
+  </tr>
+</table>
+
+&rarr; [`notebooks/05_uplift_modeling.ipynb`](notebooks/05_uplift_modeling.ipynb)
+
+<br>
+
+## The `abkit` toolkit
+
+A small, dependency-light library behind every analysis, with 27 tests. Each function is
+checked against an independent reference: statsmodels, SciPy, published statistical
+tables, or simulated data with a known answer.
+
+| Module | What it does | Verified against |
+|:--|:--|:--|
+| `power` | Sample size, power and MDE for proportions and means, with unequal splits | Fleiss tables |
+| `tests` | Two-proportion z-test, Welch's t-test, Mann–Whitney, Wilson intervals, chunked bootstrap | statsmodels, SciPy |
+| `srm` | Sample-ratio-mismatch detection | Known balanced and unbalanced splits |
+| `assignment` | Sticky, salted SHA-256 bucketing, the way production SDKs assign users | Uniformity and independence tests |
+| `variance` | CUPED, delta method for ratio metrics | Theoretical variance reduction, bootstrap |
+| `sequential` | O'Brien–Fleming boundaries by exact recursive integration, mSPRT | gsDesign / ldbounds (to 4 decimals) |
+| `bayes` | Beta–Binomial: P(B > A), expected loss, credible intervals | Symmetry and direction checks |
+| `multiple` | Holm, Benjamini–Hochberg, Dunnett critical values | statsmodels, published Dunnett tables |
+| `uplift` | S-, T- and X-learners, Qini curve and coefficient, uplift@k | Simulated data with known effects |
+
+<details>
+<summary><b>Repository layout</b></summary>
 
 ```
-abkit/                     tested stats toolkit
-  power.py                 sample size, power, MDE (proportions & means, unequal splits)
-  tests.py                 z-test, Welch t, Mann–Whitney, Wilson CI, chunked bootstrap
-  srm.py                   sample-ratio-mismatch check
-  assignment.py            sticky, salted SHA-256 bucketing (what a production SDK does)
-  variance.py              CUPED, delta method for ratio metrics
-  sequential.py            O'Brien–Fleming boundaries (exact recursive integration), mSPRT
-  bayes.py                 Beta–Binomial: P(B > A), expected loss, credible intervals
-  multiple.py              Holm, Benjamini–Hochberg, Dunnett critical values
-  uplift.py                S/T/X meta-learners, Qini curve & coefficient, uplift@k, bootstrap CIs
-labsim/booking.py          booking-funnel simulator + the pre-registered analysis
-notebooks/
-  01_cookie_cats_audit     trust → power → test → estimate → decide
-  02_simulations           A/A, peeking (naive vs OBF vs mSPRT), CUPED
-  03_booking_form_design   sizing, weekly looks, readout, 300-run reliability check
-  04_marketing_segments    unequal allocation, balance checks, CMH/Breslow–Day, 37 segments + BH
-  05_uplift_modeling       Hillstrom & Criteo: meta-learners vs response model, Qini, robustness, budget
-docs/preregistration_booking_form.md   locked experiment plan with decision rules
-app/streamlit_app.py       sample size calculator · results analyser · peeking simulator
-tests/                     27 tests against statsmodels, SciPy, published tables and known-truth data
+abkit/                     statistics toolkit (above)
+labsim/booking.py          booking-funnel simulator and the pre-registered analysis
+notebooks/                 five case studies, stored as .py (jupytext) with executed .ipynb
+docs/                      experiment pre-registration
+app/streamlit_app.py       interactive app
+scripts/fetch_data.py      downloads all public data and builds a local DuckDB database
+reports/                   figures and machine-readable results (JSON)
+tests/                     unit tests
+.github/workflows/ci.yml   tests, data download and full notebook re-execution on every push
 ```
 
-Each `abkit` function is checked against an independent reference:
-- statsmodels for z-tests, Wilson intervals, Holm and BH
-- SciPy for Welch's test
-- Fleiss's sample-size tables
-- published Dunnett critical values
-- the gsDesign/ldbounds O'Brien–Fleming boundaries (matched to 4 decimals)
+</details>
 
-## Run it
+<br>
+
+## Interactive app
+
+A Streamlit app with three tools:
+
+* **Sample size:** users per arm and test duration for any baseline, effect size and
+  number of variants (Dunnett-adjusted).
+* **Analyse a test:** paste counts or upload a CSV. You get an SRM check, a significance
+  test, confidence intervals, the probability each arm is better, and expected loss.
+* **Peeking simulator:** watch false positives accumulate as you check results daily.
 
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt && pip install -e .
-pytest -q                                   # 27 tests
-python scripts/fetch_data.py                # downloads CSVs (incl. 311 MB Criteo), builds data/lab.duckdb
-cd notebooks && for nb in 0*.py; do jupytext --to ipynb --execute "$nb"; done && cd ..
-streamlit run app/streamlit_app.py          # the interactive app
+streamlit run app/streamlit_app.py
 ```
 
-Notebooks are stored as plain `.py` files (jupytext percent format), so diffs stay readable.
-Running the loop above regenerates the `.ipynb` files with outputs, plus everything in `reports/`.
+The app needs no data download. To host it for free, connect this repository on
+Streamlit Community Cloud and set the main file to `app/streamlit_app.py`.
 
-## Deploy for free
+<br>
 
-* **GitHub Actions** (`.github/workflows/ci.yml`) runs the tests, downloads the data,
-  executes all three notebooks, and uploads the reports on every push.
-* **Streamlit Community Cloud**: connect the repo at share.streamlit.io and set the main
-  file to `app/streamlit_app.py`. The app needs no data download.
+## Run it yourself
+
+```bash
+git clone https://github.com/DGskywalker/experimentation-lab.git
+cd experimentation-lab
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt && pip install -e .
+
+pytest -q                        # 27 tests
+python scripts/fetch_data.py     # downloads all datasets (Criteo is 311 MB) into data/lab.duckdb
+cd notebooks && for nb in 0*.py; do jupytext --to ipynb --execute "$nb"; done
+```
+
+Notebooks are stored as plain Python files (jupytext percent format), so code review
+stays readable. Executing them regenerates every figure and result file in `reports/`.
+
+<br>
 
 ## Data
 
-* **Cookie Cats**: 90,189 players randomised to `gate_30` / `gate_40`. Originally
-  published by Tactile Entertainment via DataCamp and Kaggle; mirrored on GitHub.
-* **Hotel Booking Demand**: 119,390 bookings (Antonio, Almeida & Nunes, *Data in Brief*,
-  2019), via TidyTuesday.
-* **Marketing A/B Testing**: 588,101 users, ad vs PSA (Kaggle, mirrored on GitHub).
-* **Hillstrom MineThatData e-mail challenge**: 64,000 customers, 3 arms (Kevin Hillstrom, 2008).
-* **Criteo Uplift v2.1**: 13,979,592 users, 85/15 split (Diemert et al., 2018), from
-  Criteo's public Hugging Face repo. A reproducible 1M-row random sample is used.
+| Dataset | Size | Source |
+|:--|:--|:--|
+| Cookie Cats | 90,189 players | Tactile Entertainment via DataCamp / Kaggle |
+| Hotel Booking Demand | 119,390 bookings | Antonio, Almeida &amp; Nunes, *Data in Brief* (2019), via TidyTuesday |
+| Marketing A/B Testing | 588,101 users | Kaggle |
+| MineThatData E-Mail Analytics | 64,000 customers | Kevin Hillstrom (2008) |
+| Criteo Uplift v2.1 | 13,979,592 users (1M-row sample used) | Diemert et al. (2018), Criteo on Hugging Face |
 
-## Methods notes and honest limits
+All data is downloaded by `scripts/fetch_data.py`; none is stored in this repository.
 
-* Cookie Cats shows a borderline SRM (p = 0.009, above the 0.001 alarm). It's noted as
-  a caveat, and it doesn't change the conclusion.
-* The booking-form completion rate (35%) and traffic (4k/day) are **assumptions**. The
-  hotel data has no funnel. Cancellation rates and booking values come from real bookings.
-* CUPED gives only ~5% on the booking simulation, because pre-visits weakly predict a
-  0/1 outcome. It's reported as is, not tuned to look better.
+<br>
+
+## Honest limits
+
+* The booking-form completion rate (35%) and traffic (4,000 form starts a day) are
+  assumptions. The hotel data has no funnel, so only cancellation rates and booking
+  values come from real records.
+* In the ad campaign, ad exposure and peak-ad day describe users, not randomised
+  conditions. The segment findings are leads for follow-up experiments, not causal claims.
+* CUPED gives only about 5% variance reduction in the booking simulation, because
+  pre-period visits are a weak predictor of a 0/1 outcome. This is reported as found.
+
+<br>
+
+<p align="center">
+  <sub>Built with Python, DuckDB, SciPy, statsmodels, scikit-learn, matplotlib and Streamlit.</sub>
+</p>
