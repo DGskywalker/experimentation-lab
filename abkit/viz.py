@@ -1,7 +1,7 @@
 """Shared matplotlib style so every figure in the project reads as one system."""
 
-import matplotlib as mpl
-import matplotlib.pyplot as plt
+# matplotlib is imported inside the functions so the palette can be used (e.g. by the
+# Streamlit app) without paying matplotlib's import and font-cache cost.
 
 SURFACE = "#fcfcfb"
 INK = "#0b0b0b"
@@ -15,6 +15,8 @@ CRITICAL = "#c8312f"   # status: reserved for "bad" thresholds, always labelled
 
 
 def use_style() -> None:
+    import matplotlib as mpl
+
     mpl.rcParams.update({
         "figure.facecolor": SURFACE,
         "axes.facecolor": SURFACE,
@@ -45,6 +47,8 @@ def use_style() -> None:
     })
 
 
-def save(fig: plt.Figure, path) -> None:
+def save(fig, path) -> None:
+    import matplotlib.pyplot as plt
+
     fig.savefig(path)
     plt.close(fig)

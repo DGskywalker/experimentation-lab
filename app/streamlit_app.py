@@ -65,7 +65,7 @@ with tab_size:
             x="Relative MDE (%):Q", y="Users per arm:Q",
             tooltip=[alt.Tooltip("Relative MDE (%):Q", format=".1f"), alt.Tooltip("Users per arm:Q", format=",.0f")])
         st.altair_chart((line + dot).properties(title="Smaller effects need far more users", height=280),
-                        use_container_width=True)
+                        width="stretch")
 
 # ---------------------------------------------------------------- analyse
 with tab_analyse:
@@ -128,7 +128,7 @@ with tab_analyse:
             tooltip=["arm:N", alt.Tooltip("rate (%):Q", format=".2f")],
         )
         st.altair_chart(chart.properties(title="Posterior belief about each arm's true rate", height=260),
-                        use_container_width=True)
+                        width="stretch")
 
 # ---------------------------------------------------------------- peeking
 with tab_peek:
@@ -163,4 +163,4 @@ with tab_peek:
         tooltip=["Method:N", "Day:Q", alt.Tooltip("False positive rate (%):Q", format=".1f")],
     )
     rule = alt.Chart(pd.DataFrame({"y": [5]})).mark_rule(strokeDash=[4, 3], color=viz.INK_2).encode(y="y:Q")
-    st.altair_chart((chart + rule).properties(height=300), use_container_width=True)
+    st.altair_chart((chart + rule).properties(height=300), width="stretch")
